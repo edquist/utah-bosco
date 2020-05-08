@@ -3,7 +3,6 @@ Instance: "notchpeak"
 # Site information that should match the CE Topology registration
 Site:
   Resource: SLATE_US_UUTAH_NOTCHPEAK
-  ResourceGroup: CHPC Group
   Sponsor: osg:100
   Contact: Mitchell Steinman
   ContactEmail: chpc-osg-support@lists.utah.edu
@@ -13,22 +12,19 @@ Site:
   Longitude: -111.891
 
 Cluster:
-  RemoteHost: notchpeak1.chpc.utah.edu
-  RemoteBatch: slurm
+  LoginHost: notchpeak1.chpc.utah.edu
+  Batch: slurm
   PrivateKeySecret: utah-np-hostedce-privkey # maps to SLATE secret
-  Memory: 24576
+  MemoryPerNode: 24576
   CoresPerNode: 4
   MaxWallTime: 4320
   AllowedVOs: osg, cms, atlas, glow, hcc, fermilab, ligo, virgo, sdcc, sphenix, gluex, icecube, xenon
-
-Storage:
   GridDir: /uufs/chpc.utah.edu/common/home/osgusern/bosco-osg-wn-client
   WorkerNodeTemp: /scratch/local/.osgscratch
-
-Squid:
-  Location: sl-uu-es1.slateci.io:31726
+  Squid: sl-uu-es1.slateci.io:31726
   
 Networking:
+  ServiceType: "LoadBalancer"
   # The hostname that the CE should use. 
   # Appropriate A and PTR DNS records must exist.
   Hostname: "sl-uu-hce3.slateci.io"
@@ -72,34 +68,57 @@ HTTPLogger:
 
 # Default VO-user mappings for OSG Hosted CEs
 # Change these contents for legacy OSG Hosted CEs or non-OSG Hosted CEs
-VomsmapOverride: |+
-  "/osg/Role=NULL/Capability=NULL" osgusern
-  "/GLOW/Role=htpc/Capability=NULL" osgusern
-  "/hcc/Role=NULL/Capability=NULL" osgusern
-  "/cms/*" osgusern
-  "/fermilab/*" osgusern
-  "/osg/ligo/Role=NULL/Capability=NULL" osgusern
-  "/virgo/ligo/Role=NULL/Capability=NULL" osgusern
-  "/sdcc/Role=NULL/Capability=NULL" osgusern
-  "/sphenix/Role=NULL/Capability=NULL" osgusern
-  "/atlas/*" osgusern
-  "/Gluex/Role=NULL/Capability=NULL" osgusern
-  "/dune/Role=pilot/Capability=NULL" osgusern
-  "/icecube/Role=pilot/Capability=NULL" osgusern
-  "/xenon.biggrid.nl/Role=NULL/Capability=NULL" osgusern
+VoRemoteUserMapping:
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/OSG.yaml
+  - "/osg/Role=NULL/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/GLOW.yaml
+  - "/GLOW/Role=htpc/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/HCC.yaml
+  - "/hcc/Role=NULL/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/CMS.yaml
+  - "/cms/*": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/Fermilab.yaml
+  - "/fermilab/*": osgusern
+  # osg06 reserved for JLAB
+  # LIGO-Virgo collaboration
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/LIGO.yaml
+  - "/osg/ligo/Role=NULL/Capability=NULL": osgusern
+  - "/virgo/ligo/Role=NULL/Capability=NULL": osgusern
+  # Brookhaven National Lab VOs
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/sPHENIX.yaml
+  - "/sdcc/Role=NULL/Capability=NULL": osgusern
+  - "/sphenix/Role=NULL/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/ATLAS.yaml
+  - "/atlas/*": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/Gluex.yaml
+  - "/Gluex/Role=NULL/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/DUNE.yaml
+  - "/dune/Role=pilot/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/IceCube.yaml
+  - "/icecube/Role=pilot/Capability=NULL": osgusern
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/XENON.yaml
+  - "/xenon.biggrid.nl/Role=NULL/Capability=NULL": osgusern
+
 
 # If you wish to allow yourself to submit to this CE with your personal grid
 # proxy, you can put that in below. This will get directly mapped into
 # /etc/grid-security/grid-mapfile
 #
-GridmapOverride: |+
+DnRemoteUserMapping: |+
   "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=HENRY STEINMAN A14364946" osgusern
 
-# Use a pre-existing certificate/key pair stored in a secret with
-# # 'hostcert.pem' and 'hostkey.pem' keys for the host certificate and
-# # key, respectively
-Certificate:
-  Secret: null
+HostCredentials:
+  # Use a pre-existing host key to request a new Let's Encrypt
+  # certificate If HostCertSecret is also specified, the Let's Encrypt
+  # request is skipped.  Secret must contain a "host.key" key
+  # containing the encoded host key.
+  HostKeySecret: null
+  # Use a pre-existing host certificate instead of requesting a new
+  # Let'S Encrypt certificate. If HostKeySecret is not specified, a
+  # new Let's Encrypt certificate and key are requested anyway.
+  # Secret must contain a "host.cert" containing the encoded host
+  # certificate.
+  HostCertSecret: null
 
 # FOR DEVELOPMENT PURPOSES ONLY!
 # Setting 'Enabled: true' below does the following:
