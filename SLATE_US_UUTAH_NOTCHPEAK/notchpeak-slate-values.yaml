@@ -1,7 +1,7 @@
 Instance: "notchpeak"
 
 # Site information that should match the CE Topology registration
-Site:
+Topology:
   Resource: SLATE_US_UUTAH_NOTCHPEAK
   Sponsor: osg:100
   Contact: Mitchell Steinman
@@ -18,7 +18,6 @@ Cluster:
   MemoryPerNode: 24576
   CoresPerNode: 4
   MaxWallTime: 4320
-  AllowedVOs: osg, cms, atlas, glow, hcc, fermilab, ligo, virgo, sdcc, sphenix, gluex, icecube, xenon
   GridDir: /uufs/chpc.utah.edu/common/home/osgusern/bosco-osg-wn-client
   WorkerNodeTemp: /scratch/local/.osgscratch
   Squid: sl-uu-es1.slateci.io:31726
@@ -34,13 +33,10 @@ Networking:
   # back the same IP address that was used previously. 
   RequestIP: 155.101.6.236
 
-########### REQUIRED ###########
-# Specify additional HTCondor-CE configuration. JOB_ROUTER_ENTRIES is required!
+# Specify additional HTCondor-CE configuration
 HTCondorCeConfig: |+
   JOB_ROUTER_ENTRIES @=jre
   [
-    GridResource = "batch slurm osgusern@notchpeak1.chpc.utah.edu";
-    Requirements = (Owner == "osgusern");
     set_default_queue = "notchpeak-osg";
     # 16 GB
     set_default_maxMemory = 16384;
@@ -50,6 +46,7 @@ HTCondorCeConfig: |+
     set_default_xcount = 8;
   ]
   @jre
+
 # Options to allow override of the bosco directory from arbitrary git repos
 # Bosco override dirs are expected in the following location in the git repo:
 #   <RESOURCE NAME>/bosco_override/
@@ -104,8 +101,8 @@ VoRemoteUserMapping:
 # proxy, you can put that in below. This will get directly mapped into
 # /etc/grid-security/grid-mapfile
 #
-DnRemoteUserMapping: |+
-  "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=HENRY STEINMAN A14364946" osgusern
+DnRemoteUserMapping:
+  - "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=HENRY STEINMAN A14364946": osgusern
 
 HostCredentials:
   # Use a pre-existing host key to request a new Let's Encrypt
