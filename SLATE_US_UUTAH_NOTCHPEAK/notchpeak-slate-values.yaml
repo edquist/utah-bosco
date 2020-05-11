@@ -11,7 +11,7 @@ Topology:
   Latitude: 40.7608
   Longitude: -111.891
 
-Cluster:
+RemoteCluster:
   LoginHost: notchpeak1.chpc.utah.edu
   Batch: slurm
   PrivateKeySecret: utah-np-hostedce-privkey # maps to SLATE secret
