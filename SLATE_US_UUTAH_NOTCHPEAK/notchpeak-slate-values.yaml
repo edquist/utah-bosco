@@ -53,8 +53,7 @@ HTCondorCeConfig: |+
 BoscoOverrides:
   Enabled: true
   GitEndpoint: "https://github.com/slateci/utah-bosco.git"
-  RepoNeedsPrivKey: false
-  GitKeySecret: none
+  GitKeySecret: null
 
 # Enable a logging sidecar
 HTTPLogger:
