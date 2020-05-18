@@ -37,6 +37,7 @@ Networking:
 HTCondorCeConfig: |+
   JOB_ROUTER_ENTRIES @=jre
   [
+    Name = Notchpeak_default";
     set_default_queue = "notchpeak-osg";
     # 16 GB
     set_default_maxMemory = 16384;
@@ -46,6 +47,8 @@ HTCondorCeConfig: |+
     set_default_xcount = 8;
   ]
   @jre
+
+  JOB_ROUTER_ROUTE_NAMES = Notchpeak_default
 
 # Options to allow override of the bosco directory from arbitrary git repos
 # Bosco override dirs are expected in the following location in the git repo:
