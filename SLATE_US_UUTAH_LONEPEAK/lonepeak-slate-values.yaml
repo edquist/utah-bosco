@@ -84,21 +84,37 @@ HTTPLogger:
 
 # Default VO-user mappings for OSG Hosted CEs
 # Change these contents for legacy OSG Hosted CEs or non-OSG Hosted CEs
-VomsmapOverride: |+
-  "/osg/Role=NULL/Capability=NULL" osguserl
-  "/GLOW/Role=htpc/Capability=NULL" osguserl
-  "/hcc/Role=NULL/Capability=NULL" osguserl
-  "/cms/*" osguserl
-  "/fermilab/*" osguserl
-  "/osg/ligo/Role=NULL/Capability=NULL" osguserl
-  "/virgo/ligo/Role=NULL/Capability=NULL" osguserl
-  "/sdcc/Role=NULL/Capability=NULL" osguserl
-  "/sphenix/Role=NULL/Capability=NULL" osguserl
-  "/atlas/*" osguserl
-  "/Gluex/Role=NULL/Capability=NULL" osguserl
-  "/dune/Role=pilot/Capability=NULL" osguserl
-  "/icecube/Role=pilot/Capability=NULL" osguserl
-  "/xenon.biggrid.nl/Role=NULL/Capability=NULL" osguserl
+VoRemoteUserMapping:
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/OSG.yaml
+  - "/osg/Role=NULL/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/GLOW.yaml
+  - "/GLOW/Role=htpc/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/HCC.yaml
+  - "/hcc/Role=NULL/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/CMS.yaml
+  - "/cms/*": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/Fermilab.yaml
+  - "/fermilab/*": osguserl
+  # osg06 reserved for JLAB
+  # LIGO-Virgo collaboration
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/LIGO.yaml
+  - "/osg/ligo/Role=NULL/Capability=NULL": osguserl
+  - "/virgo/ligo/Role=NULL/Capability=NULL": osguserl
+  # Brookhaven National Lab VOs
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/sPHENIX.yaml
+  - "/sdcc/Role=NULL/Capability=NULL": osguserl
+  - "/sphenix/Role=NULL/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/ATLAS.yaml
+  - "/atlas/*": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/Gluex.yaml
+  - "/Gluex/Role=NULL/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/DUNE.yaml
+  - "/dune/Role=pilot/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/IceCube.yaml
+  - "/icecube/Role=pilot/Capability=NULL": osguserl
+  # https://github.com/opensciencegrid/topology/blob/master/virtual-organizations/XENON.yaml
+  - "/xenon.biggrid.nl/Role=NULL/Capability=NULL": osguserl
+
 
 # If you wish to allow yourself to submit to this CE with your personal grid
 # proxy, you can put that in below. This will get directly mapped into
