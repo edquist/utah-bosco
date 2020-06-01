@@ -120,7 +120,7 @@ VoRemoteUserMapping:
 # proxy, you can put that in below. This will get directly mapped into
 # /etc/grid-security/grid-mapfile
 #
-DnRemoteUserMapping: |+
+DnRemoteUserMapping:
   - "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=HENRY STEINMAN A14364946": osguserl
   - "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=JASON STIDD A1602716": osguserl
 
