@@ -1,9 +1,8 @@
 Instance: "lonepeak"
 
 # Site information that should match the CE Topology registration
-Site:
+Topology:
   Resource: SLATE_US_UUTAH_LONEPEAK
-  ResourceGroup: CHPC Group
   Sponsor: osg:100
   Contact: Mitchell Steinman
   ContactEmail: chpc-osg-support@lists.utah.edu
@@ -12,23 +11,20 @@ Site:
   Latitude: 40.7608
   Longitude: -111.891
 
-Cluster:
-  RemoteHost: lonepeak1.chpc.utah.edu
-  RemoteBatch: slurm
+RemoteCluster:
+  LoginHost: lonepeak1.chpc.utah.edu
+  Batch: slurm
   PrivateKeySecret: utah-lp-hostedce-privkey # maps to SLATE secret
-  Memory: 24000
+  MemoryPerNode: 24000
   CoresPerNode: 4
   MaxWallTime: 4320
   AllowedVOs: osg, cms, atlas, glow, hcc, fermilab, ligo, virgo, sdcc, sphenix, gluex, icecube, xenon
-
-Storage:
   GridDir: /uufs/chpc.utah.edu/common/home/osguserl/bosco-osg-wn-client
   WorkerNodeTemp: /scratch/local/.osgscratch
-
-Squid:
-  Location: sl-uu-es1.slateci.io:31726
+  Squid: sl-uu-es1.slateci.io:31726
   
 Networking:
+  ServiceType: "LoadBalancer"
   # The hostname that the CE should use. 
   # Appropriate A and PTR DNS records must exist.
   Hostname: "sl-uu-hce2.slateci.io"
@@ -77,8 +73,7 @@ HTCondorCeConfig: |+
 BoscoOverrides:
   Enabled: true
   GitEndpoint: "https://github.com/slateci/utah-bosco.git"
-  RepoNeedsPrivKey: false
-  GitKeySecret: none
+  GitKeySecret: null
 
 # Enable a logging sidecar
 HTTPLogger:
@@ -109,15 +104,16 @@ VomsmapOverride: |+
 # proxy, you can put that in below. This will get directly mapped into
 # /etc/grid-security/grid-mapfile
 #
-GridmapOverride: |+
-  "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=HENRY STEINMAN A14364946" osguserl
-  "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=JASON STIDD A1602716" osguserl
+DnRemoteUserMapping: |+
+  - "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=HENRY STEINMAN A14364946": osguserl
+  - "/DC=org/DC=cilogon/C=US/O=University of Utah/CN=JASON STIDD A1602716": osguserl
 
 # Use a pre-existing certificate/key pair stored in a secret with
 # # 'hostcert.pem' and 'hostkey.pem' keys for the host certificate and
 # # key, respectively
-Certificate:
-  Secret: null
+HostCredentials:
+  HostKeySecret: null
+  HostCertSecret: null
 
 # FOR DEVELOPMENT PURPOSES ONLY!
 # Setting 'Enabled: true' below does the following:
